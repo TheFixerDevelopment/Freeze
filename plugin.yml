@@ -1,1 +1,18 @@
-
+name: Freeze
+main: Freeze\Main
+version: 1.0.0
+author: Fycarman
+api: [1.12.0]
+description: Freeze player!
+commands:
+  freeze:
+        description: Freeze a player
+  unfreeze:
+        description: Unfreeze a player
+permissions:
+   freeze.freeze:
+      default: op
+      description: Let freeze players
+   freeze.unfreeze:
+      default: op
+      description: Let unfreeze players
