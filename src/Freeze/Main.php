@@ -35,26 +35,28 @@ class Main extends PluginBase implements Listener{
     }
 
     public function onCommand(CommandSender $sender, Command $command, $label, array $args){
-        switch($command->getName()){
+        switch ($command->getName()) {
             case "freeze":
-                if(!$sender->hasPermission("freeze.freeze")){
+                if (!$sender->hasPermission("freeze.freeze")) {
                     $sender->sendMessage(TextFormat::RED . "You don't have permission to use this command!");
                 }
-                $player = $this->getServer()->getPlayer($args[0]);
-                if(trim($player) === ""){
-                    $sender->sendMessage(TextFormat::RED . "Please specify a valid player name");
-                }else{
-                    $this->freeze($player, $sender);
+                foreach ($this->getServer()->getLevelByName($this->getConfig()->get("worlds"))->getPlayers($args[0]) as $player) {
+                    if (trim($player) === "") {
+                        $sender->sendMessage(TextFormat::RED . "Please specify a valid player name");
+                    } else {
+                        $this->freeze($player, $sender);
+                    }
                 }
             case "unfreeze":
-                if(!$sender->hasPermission("freeze.unfreeze")){
+                if (!$sender->hasPermission("freeze.unfreeze")) {
                     $sender->sendMessage(TextFormat::RED . "You don't have permission to use this command");
                 }
-                $player = $this->getServer()->getPlayer($args[0]);
-                if(trim($player) === ""){
-                    $sender->sendMessage(TextFormat::RED . "Please specify  a valid player name");
-                }else{
-                    $this->unfreeze($player, $sender);
+                foreach ($this->getServer()->getLevelByName($this->getConfig()->get("worlds"))->getPlayers($args[0]) as $player) {
+                    if (trim($player) === "") {
+                        $sender->sendMessage(TextFormat::RED . "Please specify  a valid player name");
+                    } else {
+                        $this->unfreeze($player, $sender);
+                    }
                 }
         }
     }
