@@ -9,7 +9,6 @@ use pocketmine\Player;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
-use pocketmine\level;
 use pocketmine\level\Level;
 use pocketmine\Server;
 use pocketmine\command\Command;
