@@ -33,28 +33,32 @@ class Main extends PluginBase implements Listener{
         $this->getConfig()->save();
     }
 
-    public function onCommand(CommandSender $sender, Command $command, $label, array $args){
+    public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool{
         switch ($command->getName()) {
             case "freeze":
                 if (!$sender->hasPermission("freeze.freeze")) {
-                    $sender->sendMessage(TextFormat::RED . "You don't have permission to use this command!");
+                    $sender->sendMessage(TextFormat::RED . "§2You don't have permission to use this command!");
+                    return true;
                 }
                 foreach ($this->getServer()->getLevelByName($this->getConfig()->get("worlds"))->getPlayers($args[0]) as $player) {
                     if (trim($player) === "") {
-                        $sender->sendMessage(TextFormat::RED . "Please specify a valid player name");
+                        $sender->sendMessage(TextFormat::RED . "§2Please specify a valid player name");
                     } else {
                         $this->freeze($player, $sender);
+                        return true;
                     }
                 }
             case "unfreeze":
                 if (!$sender->hasPermission("freeze.unfreeze")) {
-                    $sender->sendMessage(TextFormat::RED . "You don't have permission to use this command");
+                    $sender->sendMessage(TextFormat::RED . "§2You don't have permission to use this command");
+                    return true;
                 }
                 foreach ($this->getServer()->getLevelByName($this->getConfig()->get("worlds"))->getPlayers($args[0]) as $player) {
                     if (trim($player) === "") {
-                        $sender->sendMessage(TextFormat::RED . "Please specify  a valid player name");
+                        $sender->sendMessage(TextFormat::RED . "§2Please specify  a valid player name");
                     } else {
                         $this->unfreeze($player, $sender);
+                        return true;
                     }
                 }
         }
@@ -64,7 +68,8 @@ class Main extends PluginBase implements Listener{
         $id = $player->getUniqueId();
         $name = $player->getName();
         $this->frozen[$name] = $id;
-        $sender->sendMessage(TextFormat::GREEN . ".$name. is now frozen");
+        $sender->sendMessage(TextFormat::GREEN . ".$name. §bis now frozen");
+        return true;
     }
 
     public function unfreeze(Player $player, CommandSender $sender){
@@ -73,7 +78,8 @@ class Main extends PluginBase implements Listener{
         if(in_array($id, $this->frozen)){
             $index = array_search($id, $this->frozen);
             unset($this->frozen[$index]);
-            $sender->sendMessage(TextFormat::GREEN . ".$name. can now walk");
+            $sender->sendMessage(TextFormat::GREEN . ".$name. §bcan now walk");
+            return true;
         }
     }
 
